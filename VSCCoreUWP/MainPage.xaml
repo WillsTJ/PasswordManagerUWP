@@ -1,0 +1,84 @@
+﻿<Page
+    x:Class="VSCCoreUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VSCCoreUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <!-- XAML Theme 3, 'INDUSTRIALISE' -->
+        <Viewbox x:Name="JobListingsViewbox" Visibility="Visible">
+            <Grid x:Name="MainGrid4" Background="Transparent" Height="559" Width="949">
+                <ScrollViewer x:Name="JobListingsViewScrolViewer" Background="Transparent" 
+HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" 
+HorizontalAlignment="Left" VerticalAlignment="Top" Width="294" Height="495" 
+Margin="10,50,0,0">
+                    <StackPanel x:Name="JobListingsStackPanel" Height="500" 
+                        Background="WhiteSmoke" Width="260" CornerRadius="4">
+                        <TextBlock x:Name="SpacerTextBlock1" Height="42"/>
+
+                        <!-- Spacer text block-->
+                        <TextBlock Height="10"/>
+
+                        <Button x:Name="UploadTextFileButton" Content="Domains" 
+Foreground="LightGray" Background="Transparent" Height="50" Width="258" 
+FontWeight="Bold" FontFamily="Bahnschrift" FontSize="32" Click="UploadTextFileButton_Click"/>
+                        <!-- Spacer text block-->
+                        <TextBlock Height="10"/>
+
+                        <!--
+                        <Button x:Name="CommitToMainBranchButton" Content="Main Branch Commit" 
+Foreground="LightGray" Background="#FFE69898" Height="50" Width="258" 
+FontWeight="Bold" FontFamily="Bahnschrift" FontSize="22"/>
+
+
+                        <TextBlock Height="10"/>
+
+                        <Button x:Name="BranchCommitButton" Content="Branch Commit" 
+Foreground="LightGray" Background="#FF8CC4DC" Height="50" Width="258" 
+FontWeight="Bold" FontFamily="Bahnschrift" FontSize="22"/>
+                        -->
+
+                        <!-- Spacer text block-->
+                        <TextBlock Height="10"/>
+                        <ListBox x:Name="FileNamesListbox" Background="LightGray" Height="361" Width="260"/>
+                    </StackPanel>
+                </ScrollViewer>
+                <ScrollViewer x:Name="JobListingsDetailsViewScrolViewer" 
+Background="Transparent" HorizontalScrollBarVisibility="Visible" 
+VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Top" 
+Width="635" Height="252" Margin="304,128,0,0">
+                    <StackPanel x:Name="JobListingsDetailsStackPanel" Height="218" 
+                        Background="WhiteSmoke" Width="575" CornerRadius="4">
+
+                        <!-- Spacer text block-->
+                        <TextBlock x:Name="SpacerTextBlock2" Height="16"/>
+
+                        <TextBlock Text="Domain" Foreground="DarkGray" FontSize="28" FontWeight="Bold" TextAlignment="Center" Height="38"/>
+
+
+                        <TextBox x:Name="TextFileMonitorHeaderTextBox" Foreground="DarkGray" CornerRadius="4" Text="{x:Bind Mode=TwoWay, Path=TextData.TextFileNameString, UpdateSourceTrigger=PropertyChanged}" Height="50" Width="536" FontWeight="Bold" 
+                        FontFamily="Bahnschrift" FontSize="20.8" TextAlignment="Center"/>
+
+                        <!-- Spacer text block-->
+                        <TextBlock x:Name="SpacerTextBlock4" Height="16"/>
+
+                        <TextBlock Text="Password" Opacity="0.6" Foreground="DarkGray" FontSize="28" FontWeight="Bold" TextAlignment="Center" Height="38"/>
+
+                        <TextBox x:Name="JobListingDetailsTextBlock" Opacity="0.6" Margin="0, 0, 0, 0" 
+Foreground="DarkGray" CornerRadius="4" TextWrapping="Wrap" Text="{x:Bind Mode=TwoWay, Path=TextData.TextStringData, UpdateSourceTrigger=PropertyChanged}" 
+Height="50" Width="532" FontFamily="Bahnschrift" FontSize="20" 
+TextAlignment="Justify"/>
+                    </StackPanel>
+                </ScrollViewer>
+                <Button x:Name="SaveButton" Content="Save" 
+Foreground="DarkGray" Background="LightGray" Height="46" Width="385" 
+FontWeight="Bold" CornerRadius="4" FontFamily="Bahnschrift" FontSize="22" Margin="429,420,0,0" 
+VerticalAlignment="Top" Click="SaveButton_Click"/>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Page>
