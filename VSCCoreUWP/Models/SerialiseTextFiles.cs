@@ -44,21 +44,6 @@ namespace VSCCoreUWP.Models
 
             await Windows.Storage.FileIO.AppendTextAsync(file, password);//fileNameList); // Working.
 
-                //this.mainPageRef.UpdateUI(); // The placement here is important. As 'async' suspends this SaveMetaData function, the inherent async abstraction only lets the UpdateUI() process once the 'await' line is complete.
-         // await Windows.Storage.FileIO.WriteTextAsync(file, mainPageRef.TextData.TextStringData);
-
-            // Store the text data file name.
-            //
-            /*if (fileName.Substring(0, 10) == "FILE_NAME_") 
-             {
-               Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-               Windows.Storage.StorageFile file = await storageFolder.CreateFileAsync(FILE_NAMES, // this needs suitable protection.
-               Windows.Storage.CreationCollisionOption.OpenIfExists);
-
-               fileNameList.Add(fileName);
-               await Windows.Storage.FileIO.WriteLinesAsync(file, fileNameList);
-             }*/
-
             this.mainPageRef.UpdateUI(); // This function should be called last, as it refreshes the field information-- Don't call this before the await WrtieText().
         }
 
@@ -79,31 +64,16 @@ namespace VSCCoreUWP.Models
                         // Get the full filepath of the file in focus.
                         if (this.filePathList[index].ToString().Contains(name))
                         {
-                            //this.mainPageRef.UpdateUI_domainSelected(); // The placement here is important. As 'async' suspends this SaveMetaData function, the inherent async abstraction only lets the UpdateUI() process once the 'await' line is complete.
-                            //Windows.Storage.StorageFile file = await storageFolder.GetFileAsync(this.filePathList[index]); // pass the full file-path.
-                             
                             text = this.filePasswordsList[index];
                             fileNameText = name;
                         }
                     }
 
                     this.mainPageRef.UpdateUI_domainSelected();
-
-                    /*
-                    Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                    Windows.Storage.StorageFile file = await storageFolder.GetFileAsync(Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\" + fileName);
-
-                    text = await Windows.Storage.FileIO.ReadTextAsync(file); */
                 }
                 catch
                 {
-                    /*
-                    string name = fileName;
-                    Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                    Windows.Storage.StorageFile file = await storageFolder.GetFileAsync(name);
 
-                    text = await Windows.Storage.FileIO.ReadTextAsync(file);
-                    fileNameText = name;*/
                 }
             }
             else  // Load the data files upon program boot-up.
