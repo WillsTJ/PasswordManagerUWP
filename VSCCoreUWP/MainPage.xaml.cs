@@ -61,8 +61,8 @@ namespace VSCCoreUWP
             }
             catch
             {
-                MessageDialog dialog = new MessageDialog("Please select a domain, to load the password.", "Load error");
-                await dialog.ShowAsync();
+                //MessageDialog dialog = new MessageDialog("Please select a domain, to load the password.", "Load error");
+                //await dialog.ShowAsync();
             }
         }
 
@@ -73,37 +73,24 @@ namespace VSCCoreUWP
             {
                 this.FileNamesListbox.Items.Add(serialiseText.fileNameList[index]);
             }
-
-            /*try
-            {
-                // Load a text file from discrete storage. (May need validation to ensure a file is selected).
-                serialiseText.LoadMetaData(false, this.FileNamesListbox.SelectedItem.ToString());
-
-                // Store the loaded text data in memory. Binding also takes care of the visual.
-                TextData.TextStringData = serialiseText.text;
-                TextData.TextFileNameString = serialiseText.fileNameText;
-
-                // Refresh text buffer.
-                serialiseText.text = string.Empty;
-            }
-            catch
-            {
-                MessageDialog dialog = new MessageDialog("Please select a file to load from source control", "Load error");
-                dialog.ShowAsync();
-            }*/
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             string fileName = this.TextFileMonitorHeaderTextBox.Text + ".txt";
             
+            // Disable this event handler, to avoid conflicting erros when saving data.
+            this.FileNamesListbox.SelectionChanged -= new SelectionChangedEventHandler(FileNamesListbox_selectionChanged);
+
             // Store the data-contents.
-            serialiseText.SaveMetaData(fileName);
+            serialiseText.SaveMetaData(fileName, this.JobListingDetailsTextBlock.Text);
 
-            // Store the data-filename for access by source control.
-            //serialiseText.SaveMetaData("FILE_NAME_" + fileName); // May need validation to protect overriding passed string, as parsing a hard-coded prefix.
+            // Refresh the UI displaying the stored domain data.
+            this.FileNamesListbox.Items.Clear();
+            this.serialiseText.LoadMetaData(false, string.Empty);
 
-
+            // Restore the event handler for the list box.
+            this.FileNamesListbox.SelectionChanged += new SelectionChangedEventHandler(FileNamesListbox_selectionChanged);
         }
 
         public void UpdateUI_domainSelected()
@@ -126,13 +113,6 @@ namespace VSCCoreUWP
 
         public void UpdateUI()
         {
-            // Update the list box visual.
-            // Populate the list box visual with the data text file-names in source control.
-            /* for (int index = 0; index < serialiseText.fileNameList.Count; index++)
-            {
-                this.FileNamesListbox.Items.Add(serialiseText.fileNameList[index]); // Change the control.
-            } */
-
             for (int index = 0; index < serialiseText.fileNameList.Count; index++)
             {
                 this.FileNamesListbox.Items.Add(serialiseText.fileNameList[index]); // Update the recently-added file name for the UI.

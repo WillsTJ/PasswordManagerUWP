@@ -28,24 +28,24 @@ namespace VSCCoreUWP.Models
             mainPageRef = mainPage;
         }
 
-        public async void SaveMetaData(string fileName)
+        public async void SaveMetaData(string fileName, string password)
         {
             // Store the text data file contents.
 
                 Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
                 Windows.Storage.StorageFile file = await storageFolder.CreateFileAsync(fileName,
-                Windows.Storage.CreationCollisionOption.OpenIfExists);
+                Windows.Storage.CreationCollisionOption.ReplaceExisting);
 
                 fileNameList.Add(fileName);
 
             // Make sure this add function does not break the code.
             filePathList.Add(file.Path);
+            filePasswordsList.Add(password);
 
+            await Windows.Storage.FileIO.AppendTextAsync(file, password);//fileNameList); // Working.
 
-            // await Windows.Storage.FileIO.WriteLinesAsync(file, fileNameList);
-
-            // this.mainPageRef.UpdateUI(); // The placement here is important. As 'async' suspends this SaveMetaData function, the inherent async abstraction only lets the UpdateUI() process once the 'await' line is complete.
-                await Windows.Storage.FileIO.WriteTextAsync(file, mainPageRef.TextData.TextStringData);
+                //this.mainPageRef.UpdateUI(); // The placement here is important. As 'async' suspends this SaveMetaData function, the inherent async abstraction only lets the UpdateUI() process once the 'await' line is complete.
+         // await Windows.Storage.FileIO.WriteTextAsync(file, mainPageRef.TextData.TextStringData);
 
             // Store the text data file name.
             //
@@ -71,6 +71,9 @@ namespace VSCCoreUWP.Models
                     string name = fileName;
                     Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
 
+                    this.mainPageRef.UpdateUI_domainSelected(); // The placement here is important. As 'async' suspends this SaveMetaData function, the inherent async abstraction only lets the UpdateUI() process once the 'await' line is complete.
+                    fileNameIList = await storageFolder.GetFilesAsync();
+
                     for (int index = 0; index < this.filePathList.Count; index++)
                     {
                         // Get the full filepath of the file in focus.
@@ -78,11 +81,13 @@ namespace VSCCoreUWP.Models
                         {
                             //this.mainPageRef.UpdateUI_domainSelected(); // The placement here is important. As 'async' suspends this SaveMetaData function, the inherent async abstraction only lets the UpdateUI() process once the 'await' line is complete.
                             //Windows.Storage.StorageFile file = await storageFolder.GetFileAsync(this.filePathList[index]); // pass the full file-path.
-
+                             
                             text = this.filePasswordsList[index];
                             fileNameText = name;
                         }
                     }
+
+                    this.mainPageRef.UpdateUI_domainSelected();
 
                     /*
                     Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -116,7 +121,7 @@ namespace VSCCoreUWP.Models
                     {
                         this.filePathList.Add(file.Path); // Store the filepath of the credential.
                         this.fileNameList.Add(file.Name); // Store the file-name, or "domain" of the credential.
-                        this.filePasswordsList.Add(await Windows.Storage.FileIO.ReadTextAsync(file)); // Store the password of the credential.
+                        this.filePasswordsList.Add(await Windows.Storage.FileIO.ReadTextAsync(file)); // Store the password of the credential. Works. (The storing/serialising needs to be checked)
                     }
 
                     // Re-construct the UI with the loaded credentials information.
